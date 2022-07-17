@@ -1,8 +1,8 @@
 import random
+from turtle import clear
 
 
 def play():
-
     word = chooseWord(importFile())
     is_beheaded = False
     is_right = False
@@ -26,7 +26,7 @@ def play():
             right_attempts.add(guess)
         elif guess not in wrong_attempts:
             print(f"# Your guess '{guess}' isn't into the secret word!")
-            wrong_attempts.add(guess)  # TODO: feat: show the wrong letters
+            wrong_attempts.add(guess)
             attempts -= 1
         drawAttempts(attempts)
 
@@ -34,11 +34,9 @@ def play():
         is_right = '_' not in hiddenWord(word, right_attempts)
 
     if is_right:
-        print(
-            f'::. No More Secret Word: {display(hiddenWord(word, right_attempts))}')
-        print('\nYou\'ve won!  :3')
+        win_finish(word, right_attempts)
     else:
-        print('\nYou\'ve lost!  o.O')
+        lost_finish()
 
 
 def importFile():
@@ -64,7 +62,7 @@ def hiddenWord(word: list, right_attempts: set):
 
 
 def drawAttempts(attempts: int):
-    file = open('char.txt', 'r', encoding='utf-8')
+    file = open('attempts.txt', 'r', encoding='utf-8')
     char = file.readlines()
     end = attempts * 4
     start = end - 4
@@ -83,6 +81,44 @@ def drawAttempts(attempts: int):
     if attempts == 0:
         print(f'\n{display(char[start:end:])}')
     file.close()
+
+
+def win_finish(word: str, right_attempts: set):
+    clearCMD()
+    print("       ___________      ")
+    print("      '._==_==_=_.'     ")
+    print("      .-\\:      /-.    ")
+    print("     | (|:.     |) |    ")
+    print("      '-|:.     |-'     ")
+    print("        \\::.    /      ")
+    print("         '::. .'        ")
+    print("           ) (          ")
+    print("         _.' '._        ")
+    print("        '-------'       ")
+    print(
+        f'\n::. No More Secret Word: {display(hiddenWord(word, right_attempts))}')
+    print('\nYou\'ve won!  :3')
+
+
+def lost_finish():
+    clearCMD()
+    print("    _______________         ")
+    print("   /               \       ")
+    print("  /                 \      ")
+    print("//                   \/\  ")
+    print("\|   XXXX     XXXX   | /   ")
+    print(" |   XXXX     XXXX   |/     ")
+    print(" |   XXX       XXX   |      ")
+    print(" |                   |      ")
+    print(" \__      XXX      __/     ")
+    print("   |\     XXX     /|       ")
+    print("   | |           | |        ")
+    print("   | I I I I I I I |        ")
+    print("   |  I I I I I I  |        ")
+    print("   \_             _/       ")
+    print("     \_         _/         ")
+    print("       \_______/           ")
+    print('\nYou\'ve lost!  o.O')
 
 
 def display(self):
